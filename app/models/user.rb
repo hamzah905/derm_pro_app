@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 	# encrypt password
-  # has_secure_password
+  has_secure_password :validations => false
   # Model associations
 
   # Validations
