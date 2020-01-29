@@ -1,5 +1,8 @@
 ActiveAdmin.register User do
 
+  scope :All
+  scope :patients
+  scope :doctors
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #

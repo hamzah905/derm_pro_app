@@ -8,6 +8,11 @@ class User < ApplicationRecord
   enum role: [:patient, :doctor]
   validates :email, uniqueness: true
 
+
+  scope :All, -> {order("users.created_at DESC")}
+  scope :patients, -> {where(role: "patient")}
+  scope :doctors, -> {where(role: "doctor")}
+
   def is_social?
     self.SocialLogIn.eql? true
   end
