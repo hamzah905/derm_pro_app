@@ -3,6 +3,11 @@ ActiveAdmin.register User do
   scope :All
   scope :patients
   scope :doctors
+  filter :first_name
+  filter :last_name
+  filter :email
+  filter :dob
+  filter :contact_no
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
@@ -17,6 +22,39 @@ ActiveAdmin.register User do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+
+  index do
+    selectable_column
+    id_column
+    column :first_name
+    column :last_name
+    column :email
+    column :dob
+    column :contact_no
+    # column :SocialLogIn
+    column :is_activated
+    column :role
+    column :created_at
+    column :updated_at
+    actions
+  end
+
+  show do
+    attributes_table do
+      row :id
+      row :first_name
+      row :last_name
+      row :email
+      row :dob
+      row :contact_no
+      row :is_activated
+      row :role
+      row :created_at
+      row :updated_at
+    end
+  end
+
+
   form do |f|
     f.inputs "User" do
       f.input :first_name
