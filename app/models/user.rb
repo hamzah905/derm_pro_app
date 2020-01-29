@@ -8,6 +8,7 @@ class User < ApplicationRecord
   enum role: [:patient, :doctor]
   validates :email, uniqueness: true
 
+  mount_uploader :avatar, AvatarUploader
 
   scope :All, -> {order("users.created_at DESC")}
   scope :patients, -> {where(role: "patient")}

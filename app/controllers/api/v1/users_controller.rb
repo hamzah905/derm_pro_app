@@ -88,13 +88,18 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def index
     users = User.all
-    response = { auth_token: auth_token, users: users}
+    all_users = users.collect{|user| user_obj(user)}
+    response = { auth_token: auth_token, users: all_users}
     json_response(response)
   end
 
   private
     def set_user
       @user = User.find_by(id: params[:id])
+    end
+
+    def user_obj(user)
+      user.attributes.merge(avatar: user.avatar.url)
     end
 
     def generate_password(id)
@@ -115,6 +120,7 @@ class Api::V1::UsersController < Api::V1::BaseController
         :dob,
         :contact_no,
         :role,
+        :avatar,
         :confirmation_code
       )
     end

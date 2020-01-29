@@ -13,7 +13,7 @@ ActiveAdmin.register User do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :first_name, :last_name, :email, :password_digest, :gender, :dob, :is_activated, :contact_no, :role, :account_status, :uid, :SocialLogIn
+  permit_params :first_name, :last_name, :email, :password_digest, :avatar, :gender, :dob, :is_activated, :contact_no, :role, :account_status, :uid, :SocialLogIn
   #
   # or
   #
@@ -45,6 +45,9 @@ ActiveAdmin.register User do
       row :first_name
       row :last_name
       row :email
+      row :avatar do |user|
+        image_tag user.avatar.url, width: '100px', height: '100px' if user.avatar.present?
+      end
       row :dob
       row :contact_no
       row :is_activated
@@ -62,6 +65,11 @@ ActiveAdmin.register User do
       f.input :email
       f.input :password
       f.input :password_confirmation
+      if f.object.avatar.url
+        f.input :avatar, as: :file, hint: image_tag(f.object.avatar.url, width: '100px', height: '100px')
+      else
+        f.input :avatar, as: :file
+      end
       # f.input :gender
       f.input :dob
       f.input :contact_no
