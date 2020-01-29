@@ -24,5 +24,16 @@ ActiveAdmin.register_page "Dashboard" do
         end
       end
     end
+
+    columns :class => 'column--left' do
+      columns :class => 'column--sub' do
+        column do
+          panel "Total Admins" do
+            h2 Admin.count
+          end
+        end
+      end
+    end
+
   end
 end
