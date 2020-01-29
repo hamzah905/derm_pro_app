@@ -6,6 +6,8 @@ class Api::V1::UsersController < Api::V1::BaseController
   def create
     user = User.find_by(email: params[:email])
     unless user.present?
+      params[:confirmation_code] = rand.to_s[2..5] if params[:contact_no].present?
+      params[:is_activated] = true
       user = User.create!(user_params)
       auth_token = AuthenticateUser.new(user.email, user.password).call
       response = { message: Message.account_created, user: ActiveModelSerializers::SerializableResource.new(user), auth_token: auth_token }
@@ -90,27 +92,9 @@ class Api::V1::UsersController < Api::V1::BaseController
     json_response(response)
   end
 
-  def contact_us
-    if Inquiry.create(inquiry_params)
-      response = { message: Message.inquiry_created, success: true, auth_token: auth_token }
-    else
-      response = { message: Message.unable_to_create_inquiry, success: false, auth_token: auth_token }
-    end
-    json_response(response, :created)
-  end
-
   private
     def set_user
       @user = User.find_by(id: params[:id])
-    end
-
-    def inquiry_params
-      params.permit(
-        :name,
-        :email,
-        :phone,
-        :description
-      )
     end
 
     def generate_password(id)
@@ -120,38 +104,25 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
 
     def user_params
-      params[:registered] = true
       params.permit(
-        :name,
+        :first_name,
+        :last_name,
         :email,
         :password,
         :password_confirmation,
         :gender,
+        :is_activated,
         :dob,
-        :height,
-        :martial_status,
-        :education,
-        :religious_education,
-        :cast,
-        :school_of_thoughts,
-        :brothers,
-        :sisters,
-        :father_occupation,
-        :occupation,
-        :monthly_income,
-        :residence,
-        :city,
         :contact_no,
-        :requirement
+        :confirmation_code
       )
     end
 
   def social_params
     params[:SocialLogIn] = true
     params.permit(
-      :name,
       :email,
-      :phone,
+      :contact_no,
       :uid,
       :SocialLogIn
     )
