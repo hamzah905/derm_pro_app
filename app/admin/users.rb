@@ -32,11 +32,11 @@ ActiveAdmin.register User do
     column :dob
     column :contact_no
     # column :SocialLogIn
-    column :is_activated
+    # column :is_activated
     column :role
     column :created_at
     column :updated_at
-    actions
+    actions name: "Actions"
   end
 
   show do
