@@ -114,6 +114,7 @@ class Api::V1::UsersController < Api::V1::BaseController
         :is_activated,
         :dob,
         :contact_no,
+        :role,
         :confirmation_code
       )
     end
