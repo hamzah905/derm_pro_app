@@ -8,6 +8,10 @@ Rails.application.routes.draw do
 	namespace :api, defaults: { format: :json } do
 		namespace :v1 do
 
+      resources :questions, only: [:index]
+      resources :quizzes, only: [:index]
+      get "quiz/:id/questions", to: "questions#get_questions"
+
 			resources :users do
 				collection do
 					post "signup", to: "users#create"
