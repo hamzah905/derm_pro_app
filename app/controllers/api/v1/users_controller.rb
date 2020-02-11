@@ -19,11 +19,16 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update
-    if @user.update(user_params)
-      response = { message: Message.updated, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
-      json_response(response)
+    if @user.present?
+      if @user.update(user_params)
+        response = { message: Message.updated, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
+        json_response(response)
+      else
+        response = { message: Message.Unable_to_Update, auth_token: auth_token }
+        json_error_response(response)
+      end
     else
-      response = { message: Message.Unable_to_Update, auth_token: auth_token }
+      response = { message: "Can not find user with id = #{params[:id]}", auth_token: auth_token }
       json_error_response(response)
     end
   end
@@ -95,7 +100,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   private
     def set_user
-      @user = User.find_by(id: params[:id])
+      @user = User.find_by_id(params[:id])
     end
 
     def user_obj(user)
