@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :quizzes, through: :user_quizzes
   has_many :user_quizzes
 
+  devise :registerable, :confirmable
+
   # Validations
   # validates_presence_of :email
   enum role: [:patient, :doctor]

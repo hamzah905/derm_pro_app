@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
   # mount RailsAdmin::Engine => '/', as: 'rails_admin'
   root to: redirect('/admin')
+  devise_for :users, controllers: { confirmations: 'confirmations' }
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
 	namespace :api, defaults: { format: :json } do
