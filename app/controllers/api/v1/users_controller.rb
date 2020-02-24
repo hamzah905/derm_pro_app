@@ -115,7 +115,8 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
 
     def user_obj(user)
-      user.attributes.merge(avatar: user.avatar.url)
+      user_quizes = UserQuiz.where(user_id: user.id)
+      user.attributes.merge(avatar: user.avatar.url, user_quizes: user_quizes.collect{|user_quiz| user_quiz.user_quiz_obj })
     end
 
     def generate_password(id)
@@ -142,11 +143,13 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
 
     def user_quiz_params
+      params[:completed] = true
       params.permit(
         :user_id,
         :quiz_id,
         :risk,
-        :skin_type
+        :skin_type,
+        :completed
       )
     end
 

@@ -2,8 +2,8 @@ class User < ApplicationRecord
 	# encrypt password
   has_secure_password :validations => false
   # Model associations
-  has_many :quizzes, through: :user_quizzes
   has_many :user_quizzes
+  has_many :quizzes, through: :user_quizzes
 
   devise :registerable, :confirmable
 
