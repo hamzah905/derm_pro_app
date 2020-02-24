@@ -98,6 +98,17 @@ class Api::V1::UsersController < Api::V1::BaseController
     json_response(response)
   end
 
+  def attempt_quiz
+    user_quiz = UserQuiz.create!(user_quiz_params)
+    if user_quiz.present?
+      response = { auth_token: auth_token, user_quiz: user_quiz}
+      json_response(response, :created)
+    else
+      response = { message: "Something went wrong.", status: false}
+      json_error_response(response)
+    end
+  end
+
   private
     def set_user
       @user = User.find_by_id(params[:id])
@@ -127,6 +138,15 @@ class Api::V1::UsersController < Api::V1::BaseController
         :role,
         :avatar,
         :confirmation_code
+      )
+    end
+
+    def user_quiz_params
+      params.permit(
+        :user_id,
+        :quiz_id,
+        :risk,
+        :skin_type
       )
     end
 
