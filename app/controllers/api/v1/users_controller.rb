@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
   skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in]
-  before_action :set_user, only: :update
+  before_action :set_user, only: [:update, :show]
   # POST /signup
   # return authenticated token upon signup
   def create
@@ -89,6 +89,11 @@ class Api::V1::UsersController < Api::V1::BaseController
       response = { message: Message.user_not_found, status: false}
       json_error_response(response)
     end
+  end
+
+  def show
+    response = { message: Message.updated, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
+    json_response(response)
   end
 
   def index
