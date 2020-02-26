@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_secure_password :validations => false
   # Model associations
   has_many :user_quizzes
-  has_many :inquiries
+  has_many :tickets, dependent: :destroy
   has_many :quizzes, through: :user_quizzes
 
   devise :registerable, :confirmable
