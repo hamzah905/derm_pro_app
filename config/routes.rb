@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
       resources :questions, only: [:index]
       resources :quizzes, only: [:index]
+      resources :topics, only: [:index]
+      resources :articles, only: [:index]
       get "quiz/:id/questions", to: "questions#get_questions"
 
 			resources :users do
