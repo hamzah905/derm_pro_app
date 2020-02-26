@@ -41,6 +41,7 @@ ActiveAdmin.register Article do
          end
       end
       row :created_at
+      row :updated_at
     end
   end
 
