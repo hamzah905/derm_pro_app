@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
       resources :questions, only: [:index]
       resources :quizzes, only: [:index]
-      resources :topics, only: [:create,:index]
+      resources :topics, only: [:index]
       resources :articles, only: [:index]
       resources :inquires, only: [:create]
       resources :query_spots, only: [:create, :index]
