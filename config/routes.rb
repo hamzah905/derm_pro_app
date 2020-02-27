@@ -27,6 +27,7 @@ Rails.application.routes.draw do
 					post 'forget_password', to: 'users#forget_password'
 					post 'reset_password', to: 'users#change_password'
 					get 'contact_us', to: 'users#contact_us'
+          get 'all_patients', to: 'users#all_patients'
           post 'social_login', to: 'users#social_login_in'
           post 'attempt_quiz', to: 'users#attempt_quiz'
 				end
