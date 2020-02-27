@@ -14,9 +14,8 @@ module ApplicationHelper
     options[:data][:notification_type] = notification_type
     options[:priority] = "high"
     puts "================#{options}=========================="
-      @fcm_response = gcm.send(registration_id, options)
-      notification = JSON.parse(@fcm_response[:body])
-    end
+    @fcm_response = gcm.send(registration_id, options)
+    notification = JSON.parse(@fcm_response[:body])
     puts "================#{@fcm_response}========================"
   end
 
