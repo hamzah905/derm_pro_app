@@ -1,20 +1,19 @@
-ActiveAdmin.register Inquiry do
+ActiveAdmin.register QuerySpot do
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :images, :string, :message, :user_id
+  # permit_params :message, :images
   #
   # or
   #
   # permit_params do
-  #   permitted = [:images, :string, :message, :user_id]
+  #   permitted = [:message, :images]
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
-
   controller do
     def action_methods
       super - ['new', 'create', 'edit', 'update']
@@ -24,7 +23,7 @@ ActiveAdmin.register Inquiry do
   index do
     selectable_column
     id_column
-    column :ticket
+    column :user
     column :message
     column :created_at
     actions name: "Actions"
@@ -32,7 +31,7 @@ ActiveAdmin.register Inquiry do
 
   show do |article|
     attributes_table do
-      row :ticket
+      row :user
       row :message
       row "Images" do
          ul do
