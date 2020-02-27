@@ -25,6 +25,8 @@ gem 'bcrypt', '~> 3.1.7'
 # Rails Admin
 # gem 'rails_admin'
 gem 'activeadmin'
+gem 'fcm'
+
 
 # JWT
 gem 'jwt'

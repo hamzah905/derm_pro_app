@@ -3,6 +3,7 @@ class Api::V1::BaseController < ApplicationController
 
   include Response
   include ExceptionHandler
+  include ApplicationHelper
 
   # called before every action on controllers
   before_action :authorize_request
