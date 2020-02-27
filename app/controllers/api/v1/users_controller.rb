@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in]
+  skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in, :all_patients]
   before_action :set_user, only: [:update, :show]
   # POST /signup
   # return authenticated token upon signup
@@ -98,6 +98,13 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def index
     users = User.all
+    all_users = users.collect{|user| user_obj(user)}
+    response = { auth_token: auth_token, users: all_users}
+    json_response(response)
+  end
+
+  def all_patients
+    users = User.where(role: "patient")
     all_users = users.collect{|user| user_obj(user)}
     response = { auth_token: auth_token, users: all_users}
     json_response(response)
