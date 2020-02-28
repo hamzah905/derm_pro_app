@@ -138,7 +138,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
     def patient_obj(user)
       query_spots = QuerySpot.where(user_id: user.id)
-      user.attributes.merge(full_name: user.first_name.present? ? user.first_name : "" + " " + user.last_name.present? ? user.last_name : "", avatar: user.avatar.url, query_spots: query_spots.collect{|query_spot| query_spot.query_spot_obj }).except("first_name", "last_name")
+      user.attributes.merge(avatar: user.avatar.url, query_spots: query_spots.collect{|query_spot| query_spot.query_spot_obj }).except("first_name", "last_name")
     end
 
     def generate_password(id)
