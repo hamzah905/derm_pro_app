@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in, :all_patients]
-  before_action :set_user, only: [:update, :show]
+  skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in, :all_patients, :patient_detail]
+  before_action :set_user, only: [:update, :show, :patient_detail]
   # POST /signup
   # return authenticated token upon signup
   def create
@@ -110,8 +110,9 @@ class Api::V1::UsersController < Api::V1::BaseController
     json_response(response)
   end
 
-  def patient
-    
+  def patient_detail
+    response = { message: Message.updated, user: patient_obj(@user), auth_token: auth_token }
+    json_response(response)
   end
 
   def attempt_quiz
