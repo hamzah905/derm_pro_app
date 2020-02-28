@@ -105,9 +105,13 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def all_patients
     users = User.where(role: "patient")
-    all_users = users.collect{|user| user_obj(user)}
+    all_users = users.collect{|user| patient_obj(user)}
     response = { auth_token: auth_token, users: all_users}
     json_response(response)
+  end
+
+  def patient
+    
   end
 
   def attempt_quiz
@@ -129,6 +133,11 @@ class Api::V1::UsersController < Api::V1::BaseController
     def user_obj(user)
       user_quizes = UserQuiz.where(user_id: user.id)
       user.attributes.merge(avatar: user.avatar.url, user_quizes: user_quizes.collect{|user_quiz| user_quiz.user_quiz_obj })
+    end
+
+    def patient_obj(user)
+      query_spots = QuerySpot.where(user_id: user.id)
+      user.attributes.merge(avatar: user.avatar.url, query_spots: query_spots.collect{|query_spot| query_spot.query_spot_obj })
     end
 
     def generate_password(id)

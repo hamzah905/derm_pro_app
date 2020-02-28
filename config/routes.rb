@@ -19,6 +19,8 @@ Rails.application.routes.draw do
       resources :query_spots, only: [:create, :index]
       resources :tickets, only: [:create, :index]
       get "quiz/:id/questions", to: "questions#get_questions"
+      get 'patients/:id', to: 'users#patient_detail'
+      get 'all_patients', to: 'users#all_patients'
 
 			resources :users do
 				collection do
@@ -27,7 +29,6 @@ Rails.application.routes.draw do
 					post 'forget_password', to: 'users#forget_password'
 					post 'reset_password', to: 'users#change_password'
 					get 'contact_us', to: 'users#contact_us'
-          get 'all_patients', to: 'users#all_patients'
           post 'social_login', to: 'users#social_login_in'
           post 'attempt_quiz', to: 'users#attempt_quiz'
 				end
