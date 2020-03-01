@@ -1,5 +1,6 @@
 class QuerySpot < ApplicationRecord
   belongs_to :user
+  has_many :feedbacks, dependent: :destroy
 
   mount_uploaders :images, AvatarUploader
 

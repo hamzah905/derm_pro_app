@@ -16,7 +16,9 @@ Rails.application.routes.draw do
       resources :topics, only: [:index]
       resources :articles, only: [:index]
       resources :inquires, only: [:create]
-      resources :query_spots, only: [:create, :index]
+      resources :query_spots, only: [:create, :index] do
+      post "feedback", to: "query_spots#query_spot_feedback"
+      end
       resources :tickets, only: [:create, :index]
       get "quiz/:id/questions", to: "questions#get_questions"
       get 'patients/:id', to: 'users#patient_detail'
