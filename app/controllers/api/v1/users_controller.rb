@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in, :all_patients, :patient_detail]
+  skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in, :all_patients, :patient_detail, :search_patients]
   before_action :set_user, only: [:update, :show, :patient_detail]
   # POST /signup
   # return authenticated token upon signup
@@ -112,6 +112,13 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def patient_detail
     response = { message: Message.updated, user: patient_obj(@user), auth_token: auth_token }
+    json_response(response)
+  end
+
+  def search_patients
+    users = User.find_by_sql("Select * from users WHERE role = 0 AND LOWER(email) ILIKE LOWER('%#{params[:email]}%')")
+    all_users = users.collect{|user| patient_obj(user)}
+    response = { auth_token: auth_token, users: all_users}
     json_response(response)
   end
 

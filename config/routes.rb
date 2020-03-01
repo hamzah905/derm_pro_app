@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       get "quiz/:id/questions", to: "questions#get_questions"
       get 'patients/:id', to: 'users#patient_detail'
       get 'all_patients', to: 'users#all_patients'
+      get 'search_patients', to: "users#search_patients"
 
 			resources :users do
 				collection do
