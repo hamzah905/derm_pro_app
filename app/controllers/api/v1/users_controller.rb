@@ -153,7 +153,7 @@ class Api::V1::UsersController < Api::V1::BaseController
 
     def patient_obj(user)
       query_spots = QuerySpot.where(user_id: user.id)
-      user.attributes.merge(avatar: user.avatar.url, query_spots: query_spots.collect{|query_spot| query_spot.query_spot_obj })
+      user.attributes.merge(created_at: user.created_at.strftime("%d-%b-%Y %H:%M"), avatar: user.avatar.url, query_spots: query_spots.collect{|query_spot| query_spot.query_spot_obj })
     end
 
     def generate_password(id)
