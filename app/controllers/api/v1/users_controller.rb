@@ -122,6 +122,8 @@ class Api::V1::UsersController < Api::V1::BaseController
       users = User.find_by_sql("Select * from users WHERE role = 0 AND (LOWER(first_name) ILIKE LOWER('%#{params[:name]}%') OR LOWER(last_name) ILIKE LOWER('%#{params[:name]}%'))")
     elsif params[:email].present?
       users = User.find_by_sql("Select * from users WHERE role = 0 AND LOWER(email) ILIKE LOWER('%#{params[:email]}%')")
+    else
+      users = User.find_by_sql("Select * from users WHERE role = 0")
     end
     all_users = users.collect{|user| patient_obj(user)}
     response = { auth_token: auth_token, users: all_users}
