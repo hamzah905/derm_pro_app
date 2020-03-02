@@ -104,7 +104,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def all_patients
-    users = User.where(role: "patient")
+    users = User.where(role: "patient").order("id")
     all_users = users.collect{|user| patient_obj(user)}
     response = { auth_token: auth_token, users: all_users}
     json_response(response)
