@@ -1,5 +1,5 @@
 class Api::V1::QuerySpotsController < Api::V1::BaseController
-  skip_before_action :authorize_request, only: [ :query_spot_feedback]
+  skip_before_action :authorize_request, only: [ :query_spot_feedback, :show]
   before_action :set_query_spot, only: [:query_spot_feedback]
   # POST /signup
   # return authenticated token upon signup
@@ -18,6 +18,10 @@ class Api::V1::QuerySpotsController < Api::V1::BaseController
     response = { message: "query spot created successfully", feedback: feedback}
     json_response(response)
   end
+
+  def show
+    response = { message: "Query Spot Detail", query_spot: @query_spot.query_spot_obj, auth_token: auth_token }
+    json_response(response)  end
   private
 
   def set_query_spot

@@ -92,7 +92,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def show
-    response = { message: Message.updated, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
+    response = { message: "User Detail", user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
     json_response(response)
   end
 
@@ -111,7 +111,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def patient_detail
-    response = { message: Message.updated, user: patient_obj(@user), auth_token: auth_token }
+    response = { message: "patient detail", user: patient_obj(@user), auth_token: auth_token }
     json_response(response)
   end
 

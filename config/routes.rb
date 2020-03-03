@@ -16,7 +16,7 @@ Rails.application.routes.draw do
       resources :topics, only: [:index]
       resources :articles, only: [:index]
       resources :inquires, only: [:create]
-      resources :query_spots, only: [:create, :index] do
+      resources :query_spots, only: [:create, :index, :show] do
       post "feedback", to: "query_spots#query_spot_feedback"
       end
       resources :tickets, only: [:create, :index]
