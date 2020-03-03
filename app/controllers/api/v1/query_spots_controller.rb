@@ -20,7 +20,8 @@ class Api::V1::QuerySpotsController < Api::V1::BaseController
   end
 
   def show
-    response = { message: "Query Spot Detail", query_spot: @query_spot.query_spot_obj, auth_token: auth_token }
+    query_spot = QuerySpot.find_by_id(params[:id])
+    response = { message: "Query Spot Detail", query_spot: query_spot.query_spot_obj, auth_token: auth_token }
     json_response(response)  end
   private
 
