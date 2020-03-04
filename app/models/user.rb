@@ -1,6 +1,8 @@
 class User < ApplicationRecord
 	# encrypt password
   has_secure_password :validations => false
+  # validates_confirmation_of :password
+
   # Model associations
   has_many :user_quizzes
   has_many :query_spots, dependent: :destroy
@@ -8,7 +10,7 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :quizzes, through: :user_quizzes
 
-  devise :registerable, :confirmable
+  devise :registerable, :confirmable, :validatable
 
   # Validations
   # validates_presence_of :email
