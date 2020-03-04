@@ -62,7 +62,7 @@ class Api::V1::UsersController < Api::V1::BaseController
         key = generate_password(@user.id)
         puts @user.update(password: key)
         UserMailer.with(email: @user.email, key: key).password_email.deliver_now
-        response = { message: Message.password_sent, status: true}
+        response = { message: Message.password_sent, user: ActiveModelSerializers::SerializableResource.new(@user), status: true}
         json_response(response)
       rescue
         response = { message: Message.Unable_to_process, status: false}
