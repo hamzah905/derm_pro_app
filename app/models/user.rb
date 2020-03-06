@@ -8,6 +8,7 @@ class User < ApplicationRecord
   has_many :query_spots, dependent: :destroy
   has_many :tickets, dependent: :destroy
   has_many :notifications, dependent: :destroy
+  has_many :feedbacks, dependent: :destroy
   has_many :quizzes, through: :user_quizzes
 
   devise :registerable, :confirmable, :validatable

@@ -1,5 +1,4 @@
 class Api::V1::QuerySpotsController < Api::V1::BaseController
-  skip_before_action :authorize_request, only: [ :query_spot_feedback, :show]
   before_action :set_query_spot, only: [:query_spot_feedback]
   # POST /signup
   # return authenticated token upon signup
@@ -12,10 +11,10 @@ class Api::V1::QuerySpotsController < Api::V1::BaseController
   end
 
   def query_spot_feedback
-    feedback = @query_spot.feedbacks.create!(message: params[:message])
-    send_notification([@query_spot.user.fcm_token], "Sample Title", "Sample Description", "Query Spot", @query_spot.user.id)
+    feedback = @query_spot.feedbacks.create!(feedback_params)
+    send_notification([@query_spot.user.fcm_token], "Sample Title", "Sample Description", "Query Spot", @query_spot.user.id) if (current_user && current_user.role == "doctor")
     notification = Notification.create!(user_id: @query_spot.user.id, title: "Sample Title", description: "Sample Description", notification_type: "Query Spot")
-    response = { message: "query spot created successfully", feedback: feedback}
+    response = { message: "query spot created successfully", feedback: feedback.feedback_obj}
     json_response(response)
   end
 
@@ -27,6 +26,12 @@ class Api::V1::QuerySpotsController < Api::V1::BaseController
 
   def set_query_spot
     @query_spot = QuerySpot.find_by_id(params[:query_spot_id])
+  end
+
+  def feedback_params
+    params[:user_id] = current_user.id if current_user.present?
+    params[:user_role] = current_user.role if current_user.present?
+    params.permit( :user_id, :user_role, :feedback_type, :image , :message )
   end
 
   def query_spot_params
