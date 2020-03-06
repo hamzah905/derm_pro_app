@@ -6,6 +6,6 @@ class Feedback < ApplicationRecord
 
 
   def feedback_obj
-    self.attributes.merge(image: self.image.url)
+    self.attributes.merge(image: self.image.url, user_name: self.user.email if self.user.present?)
   end
 end
