@@ -33,4 +33,8 @@ class User < ApplicationRecord
       self.role ||= :patient
     end
   end
+
+  def display_name
+    email # or that code will return a representation of your Model instance
+  end
 end

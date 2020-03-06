@@ -4,7 +4,6 @@ class Question < ApplicationRecord
   belongs_to :quiz
   has_many :answers, dependent: :destroy
 
-
   def display_name
     question # or that code will return a representation of your Model instance
   end
