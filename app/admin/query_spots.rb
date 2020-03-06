@@ -8,6 +8,7 @@ ActiveAdmin.register QuerySpot do
   # permit_params :message, :images
   #
   # or
+  remove_filter :feedbacks
   #
   # permit_params do
   #   permitted = [:message, :images]
