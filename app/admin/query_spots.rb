@@ -25,6 +25,7 @@ ActiveAdmin.register QuerySpot do
     selectable_column
     id_column
     column :user
+    column :disease
     column :message
     column "Images" do |query_spot|
       query_spot.images.count
@@ -36,6 +37,7 @@ ActiveAdmin.register QuerySpot do
   show do |query_spot|
     attributes_table do
       row :user
+      row :disease
       row :message
       row "Images" do
          ul do
