@@ -26,17 +26,20 @@ ActiveAdmin.register QuerySpot do
     id_column
     column :user
     column :message
+    column "Images" do |query_spot|
+      query_spot.images.count
+    end
     column :created_at
     actions name: "Actions"
   end
 
-  show do |article|
+  show do |query_spot|
     attributes_table do
       row :user
       row :message
       row "Images" do
          ul do
-          article.images.each do |img|
+          query_spot.images.each do |img|
             li do 
               image_tag img.url, width: '100px', height: '100px' if img.present?
             end
