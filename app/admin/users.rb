@@ -13,7 +13,7 @@ ActiveAdmin.register User do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :first_name, :last_name, :email, :password_digest, :avatar, :gender, :dob, :is_activated, :contact_no, :role, :account_status, :uid, :SocialLogIn
+  permit_params :first_name, :last_name, :email, :password, :avatar, :gender, :dob, :is_activated, :contact_no, :role, :account_status, :uid, :SocialLogIn
   #
   # or
   #
