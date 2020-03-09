@@ -175,6 +175,7 @@ class Api::V1::UsersController < Api::V1::BaseController
         :contact_no,
         :role,
         :avatar,
+        :fcm_token,
         :confirmation_code
       )
     end
