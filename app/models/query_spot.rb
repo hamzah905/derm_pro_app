@@ -7,7 +7,7 @@ class QuerySpot < ApplicationRecord
   def query_spot_obj
     query_spot_image = []
     images = self.images.present? ? self.images.count.times{ |index|  query_spot_image << self.images[index].url } : ""
-    self.attributes.merge(images: query_spot_image.present? ? query_spot_image : "", created_at: self.created_at.strftime("%d-%b-%Y %H:%M"), feedbacks: self.feedbacks.collect{|feedback| feedback.feedback_obj}).except("updated_at")
+    self.attributes.merge(images: query_spot_image.present? ? query_spot_image : "", created_at: self.created_at.strftime("%d-%b-%Y %H:%M"), feedbacks: self.feedbacks.order("created_at DESC").collect{|feedback| feedback.feedback_obj}).except("updated_at")
   end
 
   def display_name
