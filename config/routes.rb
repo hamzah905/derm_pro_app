@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       get 'all_patients', to: 'users#all_patients'
       get 'search_patients', to: "users#search_patients"
       get 'dashboard_graphs_user', to: "dashboard#dashboard_graphs_user"
+      get 'update_user/:id', to: 'users#update_user'
 
 			resources :users do
 				collection do

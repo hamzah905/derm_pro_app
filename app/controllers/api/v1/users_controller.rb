@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
   skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in]
-  before_action :set_user, only: [:update, :show, :patient_detail]
+  before_action :set_user, only: [:update, :show, :patient_detail, :update_user]
   # POST /signup
   # return authenticated token upon signup
   def create
@@ -19,6 +19,21 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def update
+    if @user.present?
+      if @user.update(user_params)
+        response = { message: Message.updated, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
+        json_response(response)
+      else
+        response = { message: Message.Unable_to_Update, auth_token: auth_token }
+        json_error_response(response)
+      end
+    else
+      response = { message: "Can not find user with id = #{params[:id]}", auth_token: auth_token }
+      json_error_response(response)
+    end
+  end
+
+  def update_user
     if @user.present?
       if @user.update(user_params)
         response = { message: Message.updated, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
