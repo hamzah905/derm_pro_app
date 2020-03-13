@@ -12,7 +12,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '37eb21f19e8daf55af7ee4e65c648edf')
       @client.messages.create(
         from: '+17078279112',
-        to: '+923066201340',
+        to: "#{user.contact_no}",
         body: "Your DermPro verification code is #{params[:confirmation_code]}"
       )
       auth_token = AuthenticateUser.new(user.email, user.password).call
