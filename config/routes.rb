@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 					post 'reset_password', to: 'users#change_password'
 					get 'contact_us', to: 'users#contact_us'
           post 'social_login', to: 'users#social_login_in'
+          put 'verify_number', to: 'users#verify_number'
           post 'attempt_quiz', to: 'users#attempt_quiz'
 				end
 			end

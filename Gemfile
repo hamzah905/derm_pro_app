@@ -27,6 +27,7 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'activeadmin'
 gem 'fcm'
 gem 'rack-cors'
+gem 'twilio-ruby', '~> 5.31.6'
 
 # JWT
 gem 'jwt'

@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in]
+  skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in, :verify_number]
   before_action :set_user, only: [:update, :show, :patient_detail, :update_user]
   # POST /signup
   # return authenticated token upon signup
@@ -9,11 +9,29 @@ class Api::V1::UsersController < Api::V1::BaseController
       params[:confirmation_code] = rand.to_s[2..5] if params[:contact_no].present?
       params[:is_activated] = true
       user = User.create!(user_params)
+      @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '37eb21f19e8daf55af7ee4e65c648edf')
+      @client.messages.create(
+        from: '+17078279112',
+        to: '+923066201340',
+        body: "Your DermPro verification code is #{params[:confirmation_code]}"
+      )
       auth_token = AuthenticateUser.new(user.email, user.password).call
       response = { message: Message.account_created, user: ActiveModelSerializers::SerializableResource.new(user), auth_token: auth_token }
       json_response(response, :created)
     else
       response = { message: Message.already_exists, email_already_exist: true }
+      json_error_response(response)
+    end
+  end
+
+  def verify_number
+    @user = User.find_by_confirmation_code(params[:confirmation_code])
+    if @user.present?
+      @user.update(number_verified: true)
+      response = { message: Message.updated, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
+      json_response(response)
+    else
+      response = { message: "Invalid otp = #{params[:confirmation_code]}"}
       json_error_response(response)
     end
   end
