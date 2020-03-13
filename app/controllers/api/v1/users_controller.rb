@@ -10,11 +10,15 @@ class Api::V1::UsersController < Api::V1::BaseController
       params[:is_activated] = true
       user = User.create!(user_params)
       @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '37eb21f19e8daf55af7ee4e65c648edf')
-      @client.messages.create(
-        from: '+17078279112',
-        to: "#{user.contact_no}",
-        body: "Your DermPro verification code is #{params[:confirmation_code]}"
-      )
+      begin
+        @client.messages.create(
+          from: '+17078279112',
+          to: "#{user.contact_no}",
+          body: "Your DermPro verification code is #{params[:confirmation_code]}"
+        )
+      rescue Exception => e
+        puts "Not a valid phone Number, caught exception #{e}"
+      end
       auth_token = AuthenticateUser.new(user.email, user.password).call
       response = { message: Message.account_created, user: ActiveModelSerializers::SerializableResource.new(user), auth_token: auth_token }
       json_response(response, :created)
