@@ -1,8 +1,13 @@
-ActiveAdmin.register Feedback do
+ActiveAdmin.register Feedback, as: "Communication" do
 
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
+  filter :query_spot, label: 'Scan'
+  filter :user
+  filter :message
+  filter :created_at
+  filter :user_role
   # Uncomment all parameters which should be permitted for assignment
   #
   permit_params :message, :query_spot_id, :image, :user_id, :user_role, :feedback_type
@@ -24,7 +29,9 @@ ActiveAdmin.register Feedback do
     selectable_column
     id_column
     column :user_role
-    column :query_spot
+    column "Scan" do |feedback|
+      feedback.query_spot
+    end
     column :message
     column :user
     column :created_at
@@ -34,7 +41,9 @@ ActiveAdmin.register Feedback do
   show do |feedback|
     attributes_table do
       row :user_role
-      row :query_spot
+      row "Scan" do |feedback|
+        feedback.query_spot
+      end
       row :message
       row :user
       row :image do |user|
