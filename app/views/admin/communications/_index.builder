@@ -7,6 +7,9 @@ context.instance_eval  do
       communication.query_spot
     end
     column :message
+    column "Image" do |communication|
+      communication.image.present? ? 1 : 0
+    end
     column :user
     column :created_at
     actions name: "Actions"
