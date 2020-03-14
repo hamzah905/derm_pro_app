@@ -18,6 +18,12 @@ ActiveAdmin.register Feedback, as: "Communication" do
     def action_methods
       super - ['new', 'create', 'edit', 'update']
     end
+    def scoped_collection
+      super.where.not(query_spot_id: nil)
+    end
+    def show
+      @page_title = "Communication"
+    end
   end
   #
   # permit_params do
@@ -26,23 +32,27 @@ ActiveAdmin.register Feedback, as: "Communication" do
   #   permitted
   # end
   index do
-    selectable_column
-    id_column
-    column :user_role
-    column "Scan" do |feedback|
-      feedback.query_spot
+    if params[:query_spot_id].present?
+      render "index", context: self
+    else
+      selectable_column
+      id_column
+      column :user_role
+      column "Scan" do |communication|
+        communication.query_spot
+      end
+      column :message
+      column :user
+      column :created_at
+      actions name: "Actions"
     end
-    column :message
-    column :user
-    column :created_at
-    actions name: "Actions"
   end
 
-  show do |feedback|
+  show do |communication|
     attributes_table do
       row :user_role
-      row "Scan" do |feedback|
-        feedback.query_spot
+      row "Scan" do |communication|
+        communication.query_spot
       end
       row :message
       row :user

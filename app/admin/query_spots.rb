@@ -31,7 +31,12 @@ ActiveAdmin.register QuerySpot, as: "Scans" do
       query_spot.images.count
     end
     column :created_at
-    actions name: "Actions"
+  # actions name: "Actions"
+    column "Actions" do |resource|
+      links = link_to "View", resource_path(resource), :class => "member_link edit_link"
+      links += link_to I18n.t('active_admin.delete'), resource_path(resource), :method => :delete, data: { :confirm => I18n.t('active_admin.delete_confirmation') } , :class => "member_link delete_link"
+      links += link_to "Communications", {:controller => "admin/communications", :action => "index", :query_spot_id => resource.id }, :class => "member_link edit_link"
+    end
   end
 
   show do |query_spot|
