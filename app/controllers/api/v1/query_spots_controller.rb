@@ -31,7 +31,7 @@ class Api::V1::QuerySpotsController < Api::V1::BaseController
   def feedback_params
     params[:user_id] = current_user.id if current_user.present?
     params[:user_role] = current_user.role if current_user.present?
-    params.permit( :user_id, :user_role, :feedback_type, :image , :message, :quer_spot_place )
+    params.permit( :user_id, :user_role, :feedback_type, :image , :message, :query_spot_place )
   end
 
   def query_spot_params
