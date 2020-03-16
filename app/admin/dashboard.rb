@@ -26,11 +26,38 @@ ActiveAdmin.register_page "Dashboard" do
     end
 
     columns :class => 'column--left' do
-      columns :class => 'column--sub' do
+      columns do
         column do
           panel "Total Admins" do
             h2 Admin.count
           end
+        end
+        column do
+          panel "Report Submitted" do
+            h2 (QuerySpot.count - QuerySpot.includes(:feedbacks).where(:feedbacks => { :id => nil }).count) 
+          end
+        end
+        column do
+          panel "Report Pending" do
+            h2 QuerySpot.includes(:feedbacks).where(:feedbacks => { :id => nil }).count
+          end
+        end
+      end
+    end
+
+    columns :class => 'column--left' do
+      columns do
+        column do
+          panel "Subscribed Patients" do
+            h2 User.where(role: "patient", is_activated: true).count
+          end
+        end
+        column do
+          panel "Subscribed Doctors" do
+            h2 User.where(role: "doctor", is_activated: true).count
+          end
+        end
+        column do
         end
       end
     end
