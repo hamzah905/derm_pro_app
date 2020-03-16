@@ -9,7 +9,8 @@ Bundler.require(*Rails.groups)
 module DermProApp
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.active_record.default_timezone = 'Islamabad' 
+    config.time_zone = 'Asia/Karachi'
+    config.active_record.default_timezone = :local
 
     config.load_defaults 5.2
 
