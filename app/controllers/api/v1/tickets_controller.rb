@@ -1,7 +1,7 @@
 class Api::V1::TicketsController < Api::V1::BaseController
 
   def create
-    ticket = current_user.tickets.create!(title: params[:title], image: params[:image])
+    ticket = current_user.tickets.create!(title: params[:title], image: params[:image], purpose: params[:purpose])
     response = { message: "ticket created successfully", ticket: ticket, auth_token: auth_token }
     json_response(response)
   end

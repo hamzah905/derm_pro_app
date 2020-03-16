@@ -21,6 +21,7 @@ ActiveAdmin.register Ticket, as: "Patient Tickets" do
     selectable_column
     id_column
     column :user
+    column :purpose
     column :title
     column :image
     column :created_at
