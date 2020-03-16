@@ -28,6 +28,29 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+  def resend_otp
+    @user = User.find_by_id(params[:user_id])
+    if @user.present?
+      confirmation_code = rand.to_s[2..5] if @user.contact_no.present?
+      @user.update(confirmation_code: confirmation_code)
+      @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '37eb21f19e8daf55af7ee4e65c648edf')
+      begin
+        @client.messages.create(
+          from: '+17078279112',
+          to: "#{@user.contact_no}",
+          body: "Your DermPro verification code is #{confirmation_code}"
+        )
+      rescue Exception => e
+        puts "Not a valid phone Number, caught exception #{e}"
+      end
+      response = { message: Message.updated, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
+      json_response(response)
+    else
+      response = { message: "User not found with ID = #{params[:user_id]}"}
+      json_error_response(response)
+    end
+  end
+
   def verify_number
     @user = User.find_by_confirmation_code(params[:confirmation_code])
     if @user.present?

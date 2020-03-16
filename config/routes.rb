@@ -37,6 +37,7 @@ Rails.application.routes.draw do
 					get 'contact_us', to: 'users#contact_us'
           post 'social_login', to: 'users#social_login_in'
           put 'verify_number', to: 'users#verify_number'
+          put 'resend_otp', to: 'users#resend_otp'
           post 'attempt_quiz', to: 'users#attempt_quiz'
 				end
 			end
