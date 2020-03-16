@@ -10,7 +10,7 @@ class Api::V1::ContactUsController < Api::V1::BaseController
   private
 
   def contact_us_params
-    params.permit( :title, :description, :user_id )
+    params.permit( :title, :description, :purpose, :user_id )
   end
 
 end

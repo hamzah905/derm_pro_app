@@ -12,8 +12,8 @@ class Api::V1::QuerySpotsController < Api::V1::BaseController
 
   def query_spot_feedback
     feedback = @query_spot.feedbacks.create!(feedback_params)
-    send_notification([@query_spot.user.fcm_token], "Query Spot Feedback", feedback.message, "Query Spot", @query_spot.user.id) if (current_user && current_user.role == "doctor")
-    notification = Notification.create!(user_id: @query_spot.user.id, title: "Sample Title", description: "Sample Description", notification_type: "Query Spot")
+    send_notification([@query_spot.user.fcm_token], "Query Spot Feedback", feedback.message, "Query Spot", @query_spot.user.id, @query_spot.id) if (current_user && current_user.role == "doctor")
+    notification = Notification.create!(user_id: @query_spot.user.id, title: "Sample Title", description: "Sample Description", notification_type: "Query Spot", obj_id: @query_spot.id)
     response = { message: "query spot created successfully", feedback: feedback.feedback_obj}
     json_response(response)
   end
