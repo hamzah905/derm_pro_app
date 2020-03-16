@@ -8,8 +8,8 @@ class Api::V1::DashboardController < Api::V1::BaseController
       user_per_day[day] = @users.count
     end
     doctor_subscription_rate = (User.where(role: "doctor", is_activated: true).count * 100) / User.where(role: "doctor").count
-    pending_qs = QuerySpot.includes(:feedbacks).where(:feedbacks => { :id => nil }).count
-    reports_pending_ratio = (pending_qs * 100)/QuerySpot.count
+    pending_qs = QuerySpot.includes(:feedbacks).where(:feedbacks => { :id => nil }, created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).count
+    reports_pending_ratio = (pending_qs != 0) ? (pending_qs * 100) / QuerySpot.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).count : 0
     response = { message: "User Per Day", user: {user_per_day: user_per_day, doctor_subscription_rate: doctor_subscription_rate, reports_pending_ratio: reports_pending_ratio}, auth_token: auth_token }
     json_response(response)
   end
