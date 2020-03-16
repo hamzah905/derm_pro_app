@@ -37,15 +37,16 @@ ActiveAdmin.register Feedback, as: "Communication" do
     else
       selectable_column
       id_column
+      column :user
       column :user_role
       column "Scan" do |communication|
         communication.query_spot
       end
       column :message
+      column :query_spot_place
       column "Image" do |communication|
         communication.image.present? ? 1 : 0
       end
-      column :user
       column :created_at
       actions name: "Actions"
     end
@@ -53,12 +54,13 @@ ActiveAdmin.register Feedback, as: "Communication" do
 
   show do |communication|
     attributes_table do
+      row :user
       row :user_role
       row "Scan" do |communication|
         communication.query_spot
       end
       row :message
-      row :user
+      row :query_spot_place
       row :image do |user|
         image_tag user.image.url, width: '100px', height: '100px' if user.image.present?
       end

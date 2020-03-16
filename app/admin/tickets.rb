@@ -15,6 +15,17 @@ ActiveAdmin.register Ticket, as: "Patient Tickets" do
       super - ['new', 'create', 'edit', 'update']
     end
   end
+
+
+  index do
+    selectable_column
+    id_column
+    column :user
+    column :title
+    column :image
+    column :created_at
+    actions name: "Actions"
+  end
   #
   # permit_params do
   #   permitted = [:title, :user_id]

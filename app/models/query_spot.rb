@@ -11,6 +11,6 @@ class QuerySpot < ApplicationRecord
   end
 
   def display_name
-    "Query Spot " + id.to_s # or that code will return a representation of your Model instance
+    "Scan " + id.to_s # or that code will return a representation of your Model instance
   end
 end
