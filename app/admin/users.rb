@@ -36,7 +36,12 @@ ActiveAdmin.register User do
     column :role
     column :created_at
     column :updated_at
-    actions name: "Actions"
+    column "Actions" do |resource|
+      links = link_to "View", resource_path(resource), :class => "member_link edit_link"
+      links += link_to I18n.t('active_admin.edit'), edit_resource_path(resource), :class => "member_link edit_link"
+      links += link_to I18n.t('active_admin.delete'), resource_path(resource), :method => :delete, data: { :confirm => I18n.t('active_admin.delete_confirmation') } , :class => "member_link delete_link"
+      links += link_to "Reminders", {:controller => "admin/reminders", :action => "index", :user_id => resource.id }, :class => "member_link edit_link"
+    end
   end
 
   show do
@@ -56,7 +61,6 @@ ActiveAdmin.register User do
       row :updated_at
     end
   end
-
 
   form do |f|
     f.inputs "User" do
