@@ -23,9 +23,23 @@ ActiveAdmin.register Ticket, as: "Patient Tickets" do
     column :user
     column :purpose
     column :title
-    column :image
+    column "Image" do |ticket|
+      ticket.image.present? ? 1 : 0
+    end
     column :created_at
     actions name: "Actions"
+  end
+
+  show do |ticket|
+    attributes_table do
+      row :user
+      row :purpose
+      row :title
+      row :image do |user|
+        image_tag user.image.url, width: '100px', height: '100px' if user.image.present?
+      end
+      row :created_at
+    end
   end
   #
   # permit_params do
