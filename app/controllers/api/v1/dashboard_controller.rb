@@ -7,10 +7,13 @@ class Api::V1::DashboardController < Api::V1::BaseController
       @users = User.where(role: "patient", :created_at => @date..DateTime.now - (index * 7).days)
       user_per_day[day] = @users.count
     end
-    doctor_subscription_rate = (User.where(role: "doctor", is_activated: true).count * 100) / User.where(role: "doctor").count
+    reviewed_users = Feedback.where(user_role: "patient").pluck(:user_id).uniq
+    user_satisfaction_rate = (reviewed_users.count * 100) / User.where(role: "patient").count
     pending_qs = QuerySpot.includes(:feedbacks).where(:feedbacks => { :id => nil }, created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).count
     reports_pending_ratio = (pending_qs != 0) ? (pending_qs * 100) / QuerySpot.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).count : 0
-    response = { message: "User Per Day", user: {user_per_day: user_per_day, doctor_subscription_rate: doctor_subscription_rate, reports_pending_ratio: reports_pending_ratio}, auth_token: auth_token }
+    doctor_percentage = (User.where(role: "doctor").count * 100) / User.count
+    patient_percentage = (User.where(role: "patient").count * 100) / User.count
+    response = { message: "User Per Day", user: {user_per_day: user_per_day, user_satisfaction_rate: user_satisfaction_rate, reports_pending_ratio: reports_pending_ratio, doctor_with_patient_percentage: {doctor: doctor_percentage, patient: patient_percentage}}, auth_token: auth_token }
     json_response(response)
   end
 
