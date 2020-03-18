@@ -18,7 +18,7 @@ class User < ApplicationRecord
   # validates_presence_of :email
   enum role: [:patient, :doctor]
   validates :email, uniqueness: true
-  validates :contact_no, uniqueness: true
+  # validates :contact_no, uniqueness: true
 
   mount_uploader :avatar, AvatarUploader
 
