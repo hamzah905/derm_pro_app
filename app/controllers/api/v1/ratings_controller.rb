@@ -1,4 +1,4 @@
-class Api::V1::RatingsController < ApplicationController
+class Api::V1::RatingsController < Api::V1::BaseController
 
   def create
     rating = Rating.create!(rating_params)
