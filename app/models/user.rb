@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :tickets, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :feedbacks, dependent: :destroy
+  has_one :rating
   has_many :quizzes, through: :user_quizzes
   has_many :reminders, dependent: :destroy
   has_many :contacts, class_name: "ContactUs", foreign_key: "user_id", dependent: :destroy
