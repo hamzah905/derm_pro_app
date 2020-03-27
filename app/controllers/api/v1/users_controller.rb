@@ -63,6 +63,14 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+  def check_email
+    @user = User.find_by_email(params[:email])
+    if @user.present?
+      response = { message: "User already exist with the email = #{params[:user_id]}"}
+      json_error_response(response)
+    end
+  end
+
   def update
     if @user.present?
       if @user.update(user_params)
