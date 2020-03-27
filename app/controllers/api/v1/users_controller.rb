@@ -184,12 +184,8 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def search_patients
-    if params[:email].present? && params[:name].present?
-      users = User.find_by_sql("Select * from users WHERE role = 0 AND (LOWER(first_name) ILIKE LOWER('%#{params[:name]}%') OR LOWER(last_name) ILIKE LOWER('%#{params[:name]}%') OR LOWER(email) ILIKE LOWER('%#{params[:email]}%'))")
-    elsif params[:name].present?
-      users = User.find_by_sql("Select * from users WHERE role = 0 AND (LOWER(first_name) ILIKE LOWER('%#{params[:name]}%') OR LOWER(last_name) ILIKE LOWER('%#{params[:name]}%'))")
-    elsif params[:email].present?
-      users = User.find_by_sql("Select * from users WHERE role = 0 AND LOWER(email) ILIKE LOWER('%#{params[:email]}%')")
+    if params[:search].present?
+      users = User.find_by_sql("Select * from users WHERE role = 0 AND (LOWER(first_name) ILIKE LOWER('%#{params[:search]}%') OR LOWER(last_name) ILIKE LOWER('%#{params[:search]}%') OR LOWER(email) ILIKE LOWER('%#{params[:search]}%'))")
     else
       users = User.find_by_sql("Select * from users WHERE role = 0")
     end
