@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def send_notification(registration_id, title, body, notification_type, user_id, obj_id)
-    gcm = FCM.new("AIzaSyD6Ex9yjITyu-2wd82URyOaYFy-ilyy124")
+    gcm = FCM.new("AIzaSyBRrpMkzJg2ZvOTgyyGGa4ROCpeZVa6-Fo")
     registration_id = ["fW6LZ2r5Fgo:APA91bGlOyd9rfzPqoU9qRkqKxagKQQcu8coBOKNiD6YgelBd34zuYu268EbP2KZLKzNoDTHVCtPRZbhXCx1x6xsuBlfs_1_UwEtbR4GEmO_kEQZyVop8vyIA3pE23-DoxdZVeG7tsjp"] unless registration_id.present?
     options = {}
     options[:notification] = {}
