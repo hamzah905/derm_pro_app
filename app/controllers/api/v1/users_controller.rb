@@ -173,7 +173,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def all_patients
-    users = User.joins(:query_spots).where(role: "patient").order('query_spots.created_at desc')
+    users = User.includes(:query_spots).where(role: "patient").order('query_spots.created_at desc')
     all_users = users.collect{|user| patient_obj(user)}
     response = { auth_token: auth_token, users: all_users}
     json_response(response)
