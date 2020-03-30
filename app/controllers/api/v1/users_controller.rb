@@ -216,8 +216,12 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
 
     def patient_obj(user)
+      pending_qs = false
+      user.query_spots.each do |qs|
+        pending_qs = true if qs.feedbacks.blank?
+      end
       query_spots = QuerySpot.where(user_id: user.id).order("created_at DESC")
-      user.attributes.merge(created_at: user.created_at.strftime("%d-%b-%Y %H:%M"), avatar: user.avatar.url, query_spots: query_spots.collect{|query_spot| query_spot.query_spot_obj })
+      user.attributes.merge(pending_qs:  pending_qs , created_at: user.created_at.strftime("%d-%b-%Y %H:%M"), avatar: user.avatar.url, query_spots: query_spots.collect{|query_spot| query_spot.query_spot_obj })
     end
 
     def generate_password(id)
