@@ -71,6 +71,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+
   def update
     if @user.present?
       if @user.update(user_params)
