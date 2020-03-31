@@ -68,6 +68,9 @@ class Api::V1::UsersController < Api::V1::BaseController
     if @user.present?
       response = { message: "User email already exist"}
       json_error_response(response)
+    else
+        response = { message: "You can use this email", user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
+        json_response(response)
     end
   end
 
