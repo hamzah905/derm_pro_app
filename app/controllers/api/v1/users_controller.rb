@@ -66,7 +66,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   def check_email
     @user = User.find_by_email(params[:email])
     if @user.present?
-      response = { message: "User already exist with the email = #{params[:user_id]}"}
+      response = { message: "User email already exist"}
       json_error_response(response)
     end
   end
