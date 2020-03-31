@@ -7,7 +7,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     user = User.find_by(email: params[:email])
     unless user.present?
       params[:confirmation_code] = rand.to_s[2..5] if params[:contact_no].present?
-      params[:is_activated] = true
+      params[:is_activated] = true if params[:role] != "doctor"
       user = User.create!(user_params)
       @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '925a6a56d4f9fc839a6ce345d5a787ba')
       begin
