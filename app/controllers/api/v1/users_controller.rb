@@ -9,7 +9,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       params[:confirmation_code] = rand.to_s[2..5] if params[:contact_no].present?
       params[:is_activated] = true if params[:role] != "doctor"
       user = User.create!(user_params)
-      @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '925a6a56d4f9fc839a6ce345d5a787ba')
+      @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4fa67b2010d13820774bd62152773b8c')
       begin
         @client.messages.create(
           from: '+17078279112',
@@ -33,7 +33,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     if @user.present?
       confirmation_code = rand.to_s[2..5] if @user.contact_no.present?
       @user.update(confirmation_code: confirmation_code)
-      @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '925a6a56d4f9fc839a6ce345d5a787ba')
+      @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4fa67b2010d13820774bd62152773b8c')
       begin
         @client.messages.create(
           from: '+17078279112',
