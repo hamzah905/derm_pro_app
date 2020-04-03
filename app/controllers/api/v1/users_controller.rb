@@ -1,6 +1,6 @@
 class Api::V1::UsersController < Api::V1::BaseController
   skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in, :resend_otp, :check_email]
-  before_action :set_user, only: [:update, :show, :patient_detail, :update_user]
+  before_action :set_user, only: [:update, :show, :patient_detail, :update_user, :update_contact_no]
   # POST /signup
   # return authenticated token upon signup
   def create
@@ -78,6 +78,33 @@ class Api::V1::UsersController < Api::V1::BaseController
   def update
     if @user.present?
       if @user.update(user_params)
+        response = { message: Message.updated, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
+        json_response(response)
+      else
+        response = { message: Message.Unable_to_Update, auth_token: auth_token }
+        json_error_response(response)
+      end
+    else
+      response = { message: "Can not find user with id = #{params[:id]}", auth_token: auth_token }
+      json_error_response(response)
+    end
+  end
+
+  def update_contact_no
+    if @user.present?
+      if @user.update(user_params)
+        params[:confirmation_code] = rand.to_s[2..5] if params[:contact_no].present?
+        user = User.create!(user_params)
+        @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4fa67b2010d13820774bd62152773b8c')
+        begin
+          @client.messages.create(
+            from: '+17078279112',
+            to: "#{user.contact_no}",
+            body: "Your DermPro verification code is #{params[:confirmation_code]}"
+          )
+        rescue Exception => e
+          puts "Not a valid phone Number, caught exception #{e}"
+        end
         response = { message: Message.updated, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
         json_response(response)
       else
