@@ -104,7 +104,7 @@ class Api::V1::UsersController < Api::V1::BaseController
         rescue Exception => e
           puts "Not a valid phone Number, caught exception #{e}"
         end
-        response = { message: Message.updated, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
+        response = { message: Message.account_created, user: ActiveModelSerializers::SerializableResource.new(@user), auth_token: auth_token }
         json_response(response)
       else
         response = { message: Message.Unable_to_Update, auth_token: auth_token }
