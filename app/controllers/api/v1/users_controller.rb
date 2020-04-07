@@ -9,7 +9,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       params[:confirmation_code] = rand.to_s[2..5] if params[:contact_no].present?
       params[:is_activated] = true if params[:role] != "doctor"
       user = User.create!(user_params)
-      @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4fa67b2010d13820774bd62152773b8c')
+      @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4106dd3af075a677765c5f1d3cb22913')
       begin
         @client.messages.create(
           from: '+17078279112',
@@ -33,7 +33,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     if @user.present?
       confirmation_code = rand.to_s[2..5] if @user.contact_no.present?
       @user.update(confirmation_code: confirmation_code)
-      @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4fa67b2010d13820774bd62152773b8c')
+      @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4106dd3af075a677765c5f1d3cb22913')
       begin
         @client.messages.create(
           from: '+17078279112',
@@ -92,14 +92,13 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def update_contact_no
     if @user.present?
-      if @user.update(user_params)
+      if @user.update(contact_no: params[:contact_no])
         params[:confirmation_code] = rand.to_s[2..5] if params[:contact_no].present?
-        user = User.create!(user_params)
-        @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4fa67b2010d13820774bd62152773b8c')
+        @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4106dd3af075a677765c5f1d3cb22913')
         begin
           @client.messages.create(
             from: '+17078279112',
-            to: "#{user.contact_no}",
+            to: "#{@user.contact_no}",
             body: "Your DermPro verification code is #{params[:confirmation_code]}"
           )
         rescue Exception => e
@@ -237,58 +236,59 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   private
-    def set_user
-      @user = User.find_by_id(params[:id])
-    end
 
-    def user_obj(user)
-      user_quizes = UserQuiz.where(user_id: user.id)
-      user.attributes.merge(avatar: user.avatar.url, user_quizes: user_quizes.collect{|user_quiz| user_quiz.user_quiz_obj })
-    end
+  def set_user
+    @user = User.find_by_id(params[:id])
+  end
 
-    def patient_obj(user)
-      pending_qs = false
-      user.query_spots.each do |qs|
-        pending_qs = true if qs.feedbacks.blank?
-      end
-      query_spots = QuerySpot.where(user_id: user.id).order("created_at DESC")
-      user.attributes.merge(pending_qs:  pending_qs , created_at: user.created_at.strftime("%d-%b-%Y %H:%M"), avatar: user.avatar.url, query_spots: query_spots.collect{|query_spot| query_spot.query_spot_obj })
-    end
+  def user_obj(user)
+    user_quizes = UserQuiz.where(user_id: user.id)
+    user.attributes.merge(avatar: user.avatar.url, user_quizes: user_quizes.collect{|user_quiz| user_quiz.user_quiz_obj })
+  end
 
-    def generate_password(id)
-      o = [('0'..'9'), ('a'..'z')].map(&:to_a).flatten
-      string = (0...6).map { o[rand(o.length)] }.join
-      return string+id.to_s
+  def patient_obj(user)
+    pending_qs = false
+    user.query_spots.each do |qs|
+      pending_qs = true if qs.feedbacks.blank?
     end
+    query_spots = QuerySpot.where(user_id: user.id).order("created_at DESC")
+    user.attributes.merge(pending_qs:  pending_qs , created_at: user.created_at.strftime("%d-%b-%Y %H:%M"), avatar: user.avatar.url, query_spots: query_spots.collect{|query_spot| query_spot.query_spot_obj })
+  end
 
-    def user_params
-      params.permit(
-        :first_name,
-        :last_name,
-        :email,
-        :password,
-        :password_confirmation,
-        :gender,
-        :is_activated,
-        :dob,
-        :contact_no,
-        :role,
-        :avatar,
-        :fcm_token,
-        :confirmation_code
-      )
-    end
+  def generate_password(id)
+    o = [('0'..'9'), ('a'..'z')].map(&:to_a).flatten
+    string = (0...6).map { o[rand(o.length)] }.join
+    return string+id.to_s
+  end
 
-    def user_quiz_params
-      params[:completed] = true
-      params.permit(
-        :user_id,
-        :quiz_id,
-        :risk,
-        :skin_type,
-        :completed
-      )
-    end
+  def user_params
+    params.permit(
+      :first_name,
+      :last_name,
+      :email,
+      :password,
+      :password_confirmation,
+      :gender,
+      :is_activated,
+      :dob,
+      :contact_no,
+      :role,
+      :avatar,
+      :fcm_token,
+      :confirmation_code
+    )
+  end
+
+  def user_quiz_params
+    params[:completed] = true
+    params.permit(
+      :user_id,
+      :quiz_id,
+      :risk,
+      :skin_type,
+      :completed
+    )
+  end
 
   def social_params
     params[:SocialLogIn] = true
