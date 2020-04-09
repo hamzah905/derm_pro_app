@@ -29,6 +29,7 @@ Rails.application.routes.draw do
       get 'dashboard_graphs_user', to: "dashboard#dashboard_graphs_user"
       post 'update_user/:id', to: 'users#update_user'
       put 'update_contact_no/:id', to: 'users#update_contact_no'
+      post "update_query_spot/:query_spot_id", to: "query_spots#update_query_spot"
 
 			resources :users do
 				collection do

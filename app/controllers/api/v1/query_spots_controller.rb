@@ -1,5 +1,5 @@
 class Api::V1::QuerySpotsController < Api::V1::BaseController
-  before_action :set_query_spot, only: [:query_spot_feedback]
+  before_action :set_query_spot, only: [:query_spot_feedback, :update_query_spot]
   # POST /signup
   # return authenticated token upon signup
   def create
@@ -7,6 +7,12 @@ class Api::V1::QuerySpotsController < Api::V1::BaseController
     send_notification([current_user.fcm_token], "Query Spot Recieved", "Thanks for using dermpro app, we will get back to you shourtly.", "Query Spot", current_user.id, query_spot.id)
     notification = Notification.create!(user_id: current_user.id, title: "Query Spot Recieved", description: "Thanks for using dermpro app, we will get back to you shourtly.", notification_type: "Query Spot")
     response = { message: "query spot created successfully", query_spot: query_spot.query_spot_obj, auth_token: auth_token }
+    json_response(response)
+  end
+
+  def update_query_spot
+    @query_spot.update(query_spot_params)
+    response = { message: "query spot updated successfully", query_spot: @query_spot.query_spot_obj, auth_token: auth_token }
     json_response(response)
   end
 
