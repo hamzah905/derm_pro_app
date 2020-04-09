@@ -1,5 +1,6 @@
 class Api::V1::QuerySpotsController < Api::V1::BaseController
   before_action :set_query_spot, only: [:query_spot_feedback, :update_query_spot]
+  skip_before_action :authorize_request, only: [ :update_query_spot]
   # POST /signup
   # return authenticated token upon signup
   def create
