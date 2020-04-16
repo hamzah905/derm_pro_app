@@ -13,7 +13,7 @@ ActiveAdmin.register User do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :first_name, :last_name, :email, :password, :avatar, :gender, :dob, :is_activated, :contact_no, :role, :account_status, :uid, :SocialLogIn
+  permit_params :first_name, :last_name, :email, :password, :avatar, :gender, :dob, :is_activated, :contact_no, :role, :account_status, :uid, :SocialLogIn, :doctor_type
   #
   # or
   #
@@ -56,6 +56,7 @@ ActiveAdmin.register User do
       row :contact_no
       row :is_activated
       row :role
+      row :doctor_type
       row :created_at
       row :updated_at
     end
@@ -79,6 +80,7 @@ ActiveAdmin.register User do
       f.input :account_status
       f.input :is_activated
       f.input :role
+      f.input :doctor_type
     end
     f.actions
   end

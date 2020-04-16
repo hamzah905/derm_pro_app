@@ -268,6 +268,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       :email,
       :password,
       :password_confirmation,
+      :doctor_type,
       :gender,
       :is_activated,
       :dob,
