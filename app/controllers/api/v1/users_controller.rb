@@ -6,19 +6,21 @@ class Api::V1::UsersController < Api::V1::BaseController
   def create
     user = User.find_by(email: params[:email])
     unless user.present?
-      params[:confirmation_code] = rand.to_s[2..5] if params[:contact_no].present?
+      # params[:confirmation_code] = rand.to_s[2..5] if params[:contact_no].present?
+      params[:number_verified] = true
       params[:is_activated] = true if params[:role] != "doctor"
       user = User.create!(user_params)
-      @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4106dd3af075a677765c5f1d3cb22913')
-      begin
-        @client.messages.create(
-          from: '+17078279112',
-          to: "#{user.contact_no}",
-          body: "Your DermPro verification code is #{params[:confirmation_code]}"
-        )
-      rescue Exception => e
-        puts "Not a valid phone Number, caught exception #{e}"
-      end
+      UserMailer.with(email: user.email, code: params[:confirmation_code]).confirmation_email.deliver_now
+      # @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4106dd3af075a677765c5f1d3cb22913')
+      # begin
+      #   @client.messages.create(
+      #     from: '+17078279112',
+      #     to: "#{user.contact_no}",
+      #     body: "Your DermPro verification code is #{params[:confirmation_code]}"
+      #   )
+      # rescue Exception => e
+      #   puts "Not a valid phone Number, caught exception #{e}"
+      # end
       auth_token = AuthenticateUser.new(user.email, user.password).call
       response = { message: Message.account_created, user: ActiveModelSerializers::SerializableResource.new(user), auth_token: auth_token }
       json_response(response, :created)
@@ -276,6 +278,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       :role,
       :avatar,
       :fcm_token,
+      :number_verified,
       :confirmation_code
     )
   end
