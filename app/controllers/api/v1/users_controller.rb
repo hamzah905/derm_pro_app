@@ -6,7 +6,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   def create
     user = User.find_by(email: params[:email])
     unless user.present?
-      # params[:confirmation_code] = rand.to_s[2..5] if params[:contact_no].present?
+      params[:confirmation_code] = rand.to_s[2..5] if params[:contact_no].present?
       params[:number_verified] = true
       params[:is_activated] = true if params[:role] != "doctor"
       user = User.create!(user_params)

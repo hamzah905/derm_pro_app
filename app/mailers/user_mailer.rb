@@ -7,4 +7,13 @@ class UserMailer < ApplicationMailer
     @url  = 'http://example.com/login'
     mail(to: @email, subject: 'Reset Password Instructions')
   end
+
+  def confirmation_email
+    @email = params[:email]
+    @code = params[:code]
+    @url  = 'http://example.com/login'
+    mail(to: @email, subject: 'Account Confirmation Instructions')
+  end
 end
+
+
