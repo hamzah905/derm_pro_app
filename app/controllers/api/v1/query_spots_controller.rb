@@ -42,7 +42,7 @@ class Api::V1::QuerySpotsController < Api::V1::BaseController
   end
 
   def query_spot_params
-    params.permit( {images: []}, :message, :disease, :query_spot_place )
+    params.permit( {images: []}, :message, :disease, :query_spot_place, :scan_side )
   end
 
 end

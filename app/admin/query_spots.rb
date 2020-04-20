@@ -26,6 +26,12 @@ ActiveAdmin.register QuerySpot, as: "Scans" do
     id_column
     column :user
     column :disease
+    column "Scan Place" do |query_spot|
+      query_spot.query_spot_place
+    end
+    column "Scan Side" do |query_spot|
+      query_spot.scan_side
+    end
     column :message
     column "Images" do |query_spot|
       query_spot.images.count
@@ -44,6 +50,12 @@ ActiveAdmin.register QuerySpot, as: "Scans" do
       row :user
       row :disease
       row :message
+      row "Scan Place" do
+        query_spot.query_spot_place
+      end
+      row "Scan Side" do
+        query_spot.scan_side
+      end
       row "Images" do
          ul do
           query_spot.images.each do |img|
