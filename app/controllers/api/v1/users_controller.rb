@@ -1,5 +1,5 @@
 class Api::V1::UsersController < Api::V1::BaseController
-  skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in, :resend_otp, :check_email]
+  skip_before_action :authorize_request, only: [ :create, :forget_password, :social_login_in, :resend_otp, :check_email, :create_reminder]
   before_action :set_user, only: [:update, :show, :patient_detail, :update_user, :update_contact_no]
   # POST /signup
   # return authenticated token upon signup
