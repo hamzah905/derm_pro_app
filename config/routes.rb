@@ -43,6 +43,7 @@ Rails.application.routes.draw do
           put 'verify_number', to: 'users#verify_number'
           put 'resend_otp', to: 'users#resend_otp'
           post 'attempt_quiz', to: 'users#attempt_quiz'
+          post 'create_reminder', to: 'users#create_reminder'
 				end
 			end
 		end

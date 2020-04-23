@@ -18,7 +18,7 @@ class User < ApplicationRecord
 
   # Validations
   # validates_presence_of :email
-  enum doctor_type: [:derm_pro, :wound_mend]
+  enum doctor_type: [:derm_pro, :wound_med]
 
   enum role: [:patient, :doctor]
   validates :email, uniqueness: true

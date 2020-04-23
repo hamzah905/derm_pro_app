@@ -237,6 +237,17 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+  def create_reminder
+    reminder = Reminder.create!(reminder_params)
+    if reminder.present?
+      response = { auth_token: auth_token, reminder: reminder}
+      json_response(response, :created)
+    else
+      response = { message: "Something went wrong.", status: false}
+      json_error_response(response)
+    end
+  end
+
   private
 
   def set_user
@@ -292,6 +303,15 @@ class Api::V1::UsersController < Api::V1::BaseController
       :skin_type,
       :completed
     )
+  end
+
+  def reminder_params
+    params.permit(
+      :title,
+      :description,
+      :user_id
+    )
+    
   end
 
   def social_params
