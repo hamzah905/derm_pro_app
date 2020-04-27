@@ -7,7 +7,7 @@ Rails.application.initialize!
 
 #Gmail Conf for sending emails
 ActionMailer::Base.perform_deliveries = true 
-ActionMailer::Base.default_url_options = { host: 'https://admin.dermpro.com.au/'}
+ActionMailer::Base.default_url_options = { host: 'dermpro.herokuapp.com/'}
 ActionMailer::Base.delivery_method = :smtp
 
 ActionMailer::Base.smtp_settings = {
@@ -18,4 +18,4 @@ ActionMailer::Base.smtp_settings = {
   :port => 587,
   :authentication => :plain,
   :enable_starttls_auto => true
-}   
+}
