@@ -10,7 +10,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       params[:number_verified] = true
       params[:is_activated] = true if params[:role] != "doctor"
       user = User.create!(user_params)
-      UserMailer.with(email: user.email, code: params[:confirmation_code]).confirmation_email.deliver_now
+      # UserMailer.with(email: user.email, code: params[:confirmation_code]).confirmation_email.deliver_now
       # @client = Twilio::REST::Client.new('AC9827bb27753b38381bfb64d9be36a293', '4106dd3af075a677765c5f1d3cb22913')
       # begin
       #   @client.messages.create(
