@@ -14,7 +14,7 @@ class User < ApplicationRecord
   has_many :reminders, dependent: :destroy
   has_many :contacts, class_name: "ContactUs", foreign_key: "user_id", dependent: :destroy
 
-  devise :registerable, :confirmable, :validatable
+  devise :registerable, :validatable
 
   # Validations
   # validates_presence_of :email
