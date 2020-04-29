@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       post 'update_user/:id', to: 'users#update_user'
       put 'update_contact_no/:id', to: 'users#update_contact_no'
       post "update_query_spot/:query_spot_id", to: "query_spots#update_query_spot"
+      get "queryspot_listing_by_month", to: "query_spots#queryspot_listing_by_month"
 
 			resources :users do
 				collection do
