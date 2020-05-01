@@ -32,7 +32,7 @@ class Api::V1::QuerySpotsController < Api::V1::BaseController
   end
 
   def queryspot_listing_by_month
-    query_spots = QuerySpot.all.group_by { |t| t.created_at.beginning_of_month }
+    query_spots = QuerySpot.where(user_id: params[:user_id]).group_by { |t| t.created_at.beginning_of_month }
     response = { auth_token: auth_token, query_spots: query_spots}
     json_response(response)
   end
